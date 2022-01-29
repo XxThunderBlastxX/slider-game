@@ -2,16 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 import 'package:rive/rive.dart';
+
 import 'core/puzzle_proxy.dart';
 import 'flutter.dart';
-import 'puzzle_controls.dart';
 import 'widgets/material_interior_alt.dart';
-
 
 final puzzleAnimationDuration = kThemeAnimationDuration * 3;
 
 abstract class SharedTheme {
-
   const SharedTheme();
 
   String get name;
@@ -30,9 +28,6 @@ abstract class SharedTheme {
 
   Widget tileButton(int i, PuzzleProxy puzzle, bool small);
 
-
-
-
   Ink createInk(
     Widget child, {
     DecorationImage? image,
@@ -46,14 +41,13 @@ abstract class SharedTheme {
         child: child,
       );
 
- // void onRiveInit(Artboard artboard) {
- //   print('RiveObject Initiated');
- //    final controller =
- //      StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
- //    artboard.addController(controller!);
- //    glow = controller.findInput<bool>('isGlowing') as SMIBool;
- //  }
-
+  // void onRiveInit(Artboard artboard) {
+  //   print('RiveObject Initiated');
+  //    final controller =
+  //      StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
+  //    artboard.addController(controller!);
+  //    glow = controller.findInput<bool>('isGlowing') as SMIBool;
+  //  }
 
   Widget createButton(
     PuzzleProxy puzzle,
@@ -63,7 +57,6 @@ abstract class SharedTheme {
     Color? color,
     RoundedRectangleBorder? shape,
   }) =>
-
       AnimatedContainer(
         duration: puzzleAnimationDuration,
         padding: tilePadding(puzzle),
@@ -81,12 +74,11 @@ abstract class SharedTheme {
         // ),
         child: GestureDetector(
           child: RiveAnimation.asset(
-            'asset/rive/tile${tileValue+1}.riv',
-            fit: BoxFit.contain,
+            'asset/rive/tile${tileValue + 1}.riv',
+            fit: BoxFit.cover,
             onInit: puzzle.onRiveInit,
           ),
-
-          onTap: (){
+          onTap: () {
             puzzle.clickOrShake(tileValue);
             puzzle.glowToggle();
           },
@@ -107,52 +99,52 @@ abstract class SharedTheme {
         fontWeight: FontWeight.bold,
       );
 
-  List<Widget> bottomControls(PuzzleControls controls) => <Widget>[
-        Tooltip(
-          message: 'Reset',
-          child: IconButton(
-            onPressed: controls.reset,
-            icon: Icon(Icons.refresh, color: puzzleAccentColor),
-          ),
-        ),
-        Tooltip(
-          message: 'Auto play',
-          child: Checkbox(
-            value: controls.autoPlay,
-            onChanged: controls.setAutoPlayFunction,
-            activeColor: puzzleAccentColor,
-          ),
-        ),
-        Expanded(
-          child: Container(),
-        ),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: controls.clickCount.toString(),
-                style: _infoStyle,
-              ),
-              const TextSpan(text: ' Moves'),
-            ],
-          ),
-        ),
-        SizedBox(
-          width: 90,
-          child: RichText(
-            textAlign: TextAlign.right,
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: controls.incorrectTiles.toString(),
-                  style: _infoStyle,
-                ),
-                const TextSpan(text: ' Tiles left'),
-              ],
-            ),
-          ),
-        ),
-      ];
+  // List<Widget> bottomControls(PuzzleControls controls) => <Widget>[
+  //       Tooltip(
+  //         message: 'Reset',
+  //         child: IconButton(
+  //           onPressed: controls.reset,
+  //           icon: Icon(Icons.refresh, color: puzzleAccentColor),
+  //         ),
+  //       ),
+  //       Tooltip(
+  //         message: 'Auto play',
+  //         child: Checkbox(
+  //           value: controls.autoPlay,
+  //           onChanged: controls.setAutoPlayFunction,
+  //           activeColor: puzzleAccentColor,
+  //         ),
+  //       ),
+  //       Expanded(
+  //         child: Container(),
+  //       ),
+  //       RichText(
+  //         text: TextSpan(
+  //           children: [
+  //             TextSpan(
+  //               text: controls.clickCount.toString(),
+  //               style: _infoStyle,
+  //             ),
+  //             const TextSpan(text: ' Moves'),
+  //           ],
+  //         ),
+  //       ),
+  //       SizedBox(
+  //         width: 90,
+  //         child: RichText(
+  //           textAlign: TextAlign.right,
+  //           text: TextSpan(
+  //             children: [
+  //               TextSpan(
+  //                 text: controls.incorrectTiles.toString(),
+  //                 style: _infoStyle,
+  //               ),
+  //               const TextSpan(text: ' Tiles left'),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ];
 
   Widget tileButtonCore(int i, PuzzleProxy puzzle, bool small) {
     if (i == puzzle.tileCount && !puzzle.solved) {

@@ -4,6 +4,8 @@
 
 import 'dart:async';
 
+import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import 'app_state.dart';
@@ -96,16 +98,39 @@ class PuzzleHomeState extends State
         ],
         child: Material(
           child: Stack(
-            children: const <Widget>[
-              SizedBox.expand(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: Image(
-                    image: AssetImage('asset/seattle.jpg'),
+            children: <Widget>[
+              // SizedBox.expand(
+              //   child: FittedBox(
+              //     fit: BoxFit.cover,
+              //     child: Image(
+              //       image: AssetImage('asset/seattle.jpg'),
+              //     ),
+              //   ),
+              // ),
+              LayoutBuilder(
+                builder: (context, constraints) => Center(
+                  child: Container(
+                    width: 1920,
+                    height: 1080,
+                    child: SvgPicture.asset('asset/rive/BG.svg',
+                        fit: BoxFit.cover, semanticsLabel: 'background'),
                   ),
                 ),
               ),
-              LayoutBuilder(builder: _doBuild),
+
+              Stack(children: [
+                LayoutBuilder(
+                  builder: (context, constraints) => Center(
+                    child: Container(
+                      width: 892.3062,
+                      height: 888.861,
+                      child: SvgPicture.asset('asset/rive/frame.svg',
+                          fit: BoxFit.cover, semanticsLabel: 'frame'),
+                    ),
+                  ),
+                ),
+                LayoutBuilder(builder: _doBuild),
+              ]),
             ],
           ),
         ),
@@ -203,12 +228,14 @@ Widget _doBuildCore(bool small) => ValueTabController<SharedTheme>(
       child: Consumer<SharedTheme>(
         builder: (_, theme, __) => AnimatedContainer(
           duration: puzzleAnimationDuration,
-          color: theme.puzzleThemeBackground,
+          // color: theme.puzzleThemeBackground,
+          color: Colors.transparent, //.puzzleThemeBackground,
           child: Center(
             child: theme.styledWrapper(
               small,
               SizedBox(
-                width: 580,
+                width: 667,
+                height: 669,
                 child: Consumer<AppState>(
                   builder: (context, appState, _) => Column(
                     mainAxisSize: MainAxisSize.min,
@@ -243,10 +270,10 @@ Widget _doBuildCore(bool small) => ValueTabController<SharedTheme>(
                       // ),
                       Flexible(
                         child: Container(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(0),
                           child: Flow(
                             delegate: PuzzleFlowDelegate(
-                              small ? const Size(90, 90) : const Size(140, 140),
+                              small ? const Size(90, 90) : const Size(168, 168),
                               appState.puzzle,
                               appState.animationNotifier,
                             ),
@@ -258,23 +285,23 @@ Widget _doBuildCore(bool small) => ValueTabController<SharedTheme>(
                           ),
                         ),
                       ),
-                      Container(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            top: BorderSide(color: Colors.black26, width: 1),
-                          ),
-                        ),
-                        padding: const EdgeInsets.only(
-                          left: 10,
-                          bottom: 6,
-                          top: 2,
-                          right: 10,
-                        ),
-                        child: Consumer<PuzzleControls>(
-                          builder: (_, controls, __) =>
-                              Row(children: theme.bottomControls(controls)),
-                        ),
-                      )
+                      // Container(
+                      //   decoration: const BoxDecoration(
+                      //     border: Border(
+                      //       top: BorderSide(color: Colors.black26, width: 1),
+                      //     ),
+                      //   ),
+                      //   padding: const EdgeInsets.only(
+                      //     left: 10,
+                      //     bottom: 6,
+                      //     top: 2,
+                      //     right: 10,
+                      //   ),
+                      //   child: Consumer<PuzzleControls>(
+                      //     builder: (_, controls, __) =>
+                      //         Row(children: theme.bottomControls(controls)),
+                      //   ),
+                      // )
                     ],
                   ),
                 ),

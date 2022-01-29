@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
 
 import 'core/puzzle_proxy.dart';
@@ -16,10 +17,10 @@ class ThemeSimple extends SharedTheme {
 
   const ThemeSimple();
   @override
-  Color get puzzleThemeBackground => Colors.white;
+  Color get puzzleThemeBackground => Color(0xff47251c);
 
   @override
-  Color get puzzleBackgroundColor => Colors.white70;
+  Color get puzzleBackgroundColor => Colors.transparent;
 
   @override
   Color get puzzleAccentColor => _accentBlue;
@@ -27,12 +28,11 @@ class ThemeSimple extends SharedTheme {
   @override
   RoundedRectangleBorder puzzleBorder(bool small) =>
       const RoundedRectangleBorder(
-        side: BorderSide(color: Colors.black26, width: 1),
+        side: BorderSide(color: Colors.transparent, width: 1),
         borderRadius: BorderRadius.all(
           Radius.circular(4),
         ),
       );
-
 
   @override
   Widget tileButton(int i, PuzzleProxy puzzle, bool small) {
@@ -50,24 +50,21 @@ class ThemeSimple extends SharedTheme {
 
     final correctPosition = puzzle.isCorrectPosition(i);
 
-
-
     @override
-    void glowCheck( SMIBool glow) {
+    void glowCheck(SMIBool glow) {
       //TODO: implement onRiveInit
-      if(correctPosition) {
+      if (correctPosition) {
         glow.change(true);
-      }
-      else {
+      } else {
         glow.change(false);
       }
     }
 
     @override
-    void onRiveInit(Artboard artboard){
+    void onRiveInit(Artboard artboard) {
       SMIBool? glow;
       final controller =
-        StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
+          StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
       artboard.addController(controller!);
       glow = controller.findInput<bool>('isGlowing') as SMIBool;
       // glowCheck(glow);
@@ -93,7 +90,5 @@ class ThemeSimple extends SharedTheme {
       content,
       color: const Color.fromARGB(255, 13, 87, 155),
     );
-    
-    
   }
 }
