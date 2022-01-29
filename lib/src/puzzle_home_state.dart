@@ -214,33 +214,33 @@ Widget _doBuildCore(bool small) => ValueTabController<SharedTheme>(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.black26,
-                              width: 1,
-                            ),
-                          ),
-                        ),
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        child: TabBar(
-                          controller: ValueTabController.of(context),
-                          labelPadding: const EdgeInsets.fromLTRB(0, 20, 0, 12),
-                          labelColor: theme.puzzleAccentColor,
-                          indicatorColor: theme.puzzleAccentColor,
-                          indicatorWeight: 1.5,
-                          unselectedLabelColor: Colors.black.withOpacity(0.6),
-                          tabs: themes
-                              .map((st) => Text(
-                                    st.name.toUpperCase(),
-                                    style: const TextStyle(
-                                      letterSpacing: 0.5,
-                                    ),
-                                  ))
-                              .toList(),
-                        ),
-                      ),
+                      // Container(
+                      //   decoration: const BoxDecoration(
+                      //     border: Border(
+                      //       bottom: BorderSide(
+                      //         color: Colors.black26,
+                      //         width: 1,
+                      //       ),
+                      //     ),
+                      //   ),
+                      //   margin: const EdgeInsets.symmetric(horizontal: 20),
+                      //   child: TabBar(
+                      //     controller: ValueTabController.of(context),
+                      //     labelPadding: const EdgeInsets.fromLTRB(0, 20, 0, 12),
+                      //     labelColor: theme.puzzleAccentColor,
+                      //     indicatorColor: theme.puzzleAccentColor,
+                      //     indicatorWeight: 1.5,
+                      //     unselectedLabelColor: Colors.black.withOpacity(0.6),
+                      //     tabs: themes
+                      //         .map((st) => Text(
+                      //               st.name.toUpperCase(),
+                      //               style: const TextStyle(
+                      //                 letterSpacing: 0.5,
+                      //               ),
+                      //             ))
+                      //         .toList(),
+                      //   ),
+                      // ),
                       Flexible(
                         child: Container(
                           padding: const EdgeInsets.all(10),

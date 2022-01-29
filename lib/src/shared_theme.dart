@@ -52,7 +52,7 @@ abstract class SharedTheme {
       StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
     artboard.addController(controller!);
     _glow = controller.findInput<bool>('isGlowing') as SMIBool;
-
+    // _glow.change(true);
   }
 
   Widget createButton(
