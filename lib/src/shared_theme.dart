@@ -1,6 +1,7 @@
 // Copyright 2020, the Flutter project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
 
 import 'core/puzzle_proxy.dart';
@@ -147,10 +148,24 @@ abstract class SharedTheme {
   //     ];
 
   Widget tileButtonCore(int i, PuzzleProxy puzzle, bool small) {
-    if (i == puzzle.tileCount && !puzzle.solved) {
-      return const Center();
+    if (i != puzzle.tileCount || puzzle.solved) {
+      return tileButton(i, puzzle, small);
     }
 
-    return tileButton(i, puzzle, small);
+    return const Center();
+
+    // return Center(
+    //     // child: SvgPicture.asset('asset/rive/placeholdertile.svg'),
+    //     );
+  }
+
+  Widget tilePlaceholderCore(int i, PuzzleProxy puzzle, bool small) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child:
+            Center(child: SvgPicture.asset('asset/rive/placeholdertile.svg')),
+      ),
+    );
   }
 }

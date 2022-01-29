@@ -269,27 +269,57 @@ Widget _doBuildCore(bool small) => ValueTabController<SharedTheme>(
                       //         .toList(),
                       //   ),
                       // ),
-                      Flexible(
-                        child: Container(
-                          padding: const EdgeInsets.all(0),
-                          child: Flow(
-                            delegate: PuzzleFlowDelegate(
-                              small
-                                  ? const Size(90, 90)
-                                  : Size(
-                                      MediaQuery.of(context).size.width * 0.08,
-                                      MediaQuery.of(context).size.width * 0.08),
-                              appState.puzzle,
-                              appState.animationNotifier,
-                            ),
-                            children: List<Widget>.generate(
-                              appState.puzzle.length,
-                              (i) => theme.tileButtonCore(
-                                  i, appState.puzzle, small),
+                      Stack(children: [
+                        Flexible(
+                          //This flexible is the white placeholder renderer.
+                          child: Center(
+                            child: Container(
+                              padding: const EdgeInsets.all(0),
+                              child: Flow(
+                                delegate: PuzzleFlowDelegate(
+                                  small
+                                      ? const Size(90, 90)
+                                      : Size(
+                                          MediaQuery.of(context).size.width *
+                                              0.08,
+                                          MediaQuery.of(context).size.width *
+                                              0.08),
+                                  appState.puzzle,
+                                  appState.animationNotifier,
+                                ),
+                                children: List<Widget>.generate(
+                                  appState.puzzle.length,
+                                  (i) => theme.tilePlaceholderCore(
+                                      i, appState.puzzle, small),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.all(0),
+                            child: Flow(
+                              delegate: PuzzleFlowDelegate(
+                                small
+                                    ? const Size(90, 90)
+                                    : Size(
+                                        MediaQuery.of(context).size.width *
+                                            0.08,
+                                        MediaQuery.of(context).size.width *
+                                            0.08),
+                                appState.puzzle,
+                                appState.animationNotifier,
+                              ),
+                              children: List<Widget>.generate(
+                                appState.puzzle.length,
+                                (i) => theme.tileButtonCore(
+                                    i, appState.puzzle, small),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
                       // Container(
                       //   decoration: const BoxDecoration(
                       //     border: Border(

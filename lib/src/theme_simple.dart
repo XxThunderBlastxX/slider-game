@@ -36,17 +36,17 @@ class ThemeSimple extends SharedTheme {
 
   @override
   Widget tileButton(int i, PuzzleProxy puzzle, bool small) {
-    if (i == puzzle.tileCount) {
-      assert(puzzle.solved);
-
-      return const Center(
-        child: Icon(
-          Icons.thumb_up,
-          size: 72,
-          color: _accentBlue,
-        ),
-      );
-    }
+    // if (i == puzzle.tileCount) {
+    //   assert(puzzle.solved);
+    //
+    //   return const Center(
+    //     child: Icon(
+    //       Icons.thumb_up,
+    //       size: 72,
+    //       color: _accentBlue,
+    //     ),
+    //   );
+    // }
 
     final correctPosition = puzzle.isCorrectPosition(i);
 
@@ -67,7 +67,6 @@ class ThemeSimple extends SharedTheme {
           StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
       artboard.addController(controller!);
       glow = controller.findInput<bool>('isGlowing') as SMIBool;
-      // glowCheck(glow);
     }
 
     final content = createInk(
@@ -83,12 +82,15 @@ class ThemeSimple extends SharedTheme {
       ),
     );
 
-    return createButton(
-      puzzle,
-      small,
-      i,
-      content,
-      color: const Color.fromARGB(255, 13, 87, 155),
-    );
+    return Stack(children: [
+      createButton(
+        puzzle,
+        small,
+        i,
+        content,
+        color: const Color.fromARGB(255, 13, 87, 155),
+      ),
+      SvgPicture.asset('asset/rive/placeholder.svg'),
+    ]);
   }
 }
