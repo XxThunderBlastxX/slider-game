@@ -4,6 +4,8 @@
 
 import 'dart:math' show Point;
 
+import 'package:rive/rive.dart';
+
 enum PuzzleEvent { click, random, reset, noop }
 
 abstract class PuzzleProxy {
@@ -16,6 +18,10 @@ abstract class PuzzleProxy {
   bool get solved;
 
   void clickOrShake(int tileValue);
+
+  void onRiveInit(Artboard artboard);
+
+  void glowToggle();
 
   int get tileCount;
 

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:rive/rive.dart';
+
 import 'core/puzzle_proxy.dart';
 import 'flutter.dart';
 import 'shared_theme.dart';
@@ -13,7 +15,6 @@ class ThemeSimple extends SharedTheme {
   String get name => 'Simple';
 
   const ThemeSimple();
-
   @override
   Color get puzzleThemeBackground => Colors.white;
 
@@ -32,10 +33,12 @@ class ThemeSimple extends SharedTheme {
         ),
       );
 
+
   @override
   Widget tileButton(int i, PuzzleProxy puzzle, bool small) {
     if (i == puzzle.tileCount) {
       assert(puzzle.solved);
+
       return const Center(
         child: Icon(
           Icons.thumb_up,
@@ -46,6 +49,29 @@ class ThemeSimple extends SharedTheme {
     }
 
     final correctPosition = puzzle.isCorrectPosition(i);
+
+
+
+    @override
+    void glowCheck( SMIBool glow) {
+      //TODO: implement onRiveInit
+      if(correctPosition) {
+        glow.change(true);
+      }
+      else {
+        glow.change(false);
+      }
+    }
+
+    @override
+    void onRiveInit(Artboard artboard){
+      SMIBool? glow;
+      final controller =
+        StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
+      artboard.addController(controller!);
+      glow = controller.findInput<bool>('isGlowing') as SMIBool;
+      // glowCheck(glow);
+    }
 
     final content = createInk(
       Center(
@@ -67,5 +93,7 @@ class ThemeSimple extends SharedTheme {
       content,
       color: const Color.fromARGB(255, 13, 87, 155),
     );
+    
+    
   }
 }

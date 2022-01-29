@@ -46,7 +46,7 @@ class Body {
 
     assert(force.x.isFinite && force.y.isFinite, 'force must be finite');
 
-    assert(drag.isFinite && drag >= 0, 'drag must be finiate and >= 0');
+    assert(drag.isFinite && drag >= 0, 'drag must be finite and >= 0');
 
     maxVelocity ??= double.infinity;
     assert(maxVelocity > 0, 'maxVelocity must be null or > 0');

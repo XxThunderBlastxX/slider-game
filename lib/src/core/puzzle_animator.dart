@@ -3,11 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'package:rive/rive.dart';
 import 'dart:math' show Point, Random;
 
 import 'body.dart';
 import 'puzzle.dart';
 import 'puzzle_proxy.dart';
+import '../shared_theme.dart';
 
 class PuzzleAnimator implements PuzzleProxy {
   final _rnd = Random();
@@ -39,6 +41,7 @@ class PuzzleAnimator implements PuzzleProxy {
   int get incorrectTiles => _puzzle.incorrectTiles;
 
   int get clickCount => _clickCount;
+
 
   void reset() => _resetCore();
 
@@ -73,9 +76,11 @@ class PuzzleAnimator implements PuzzleProxy {
 
   @override
   void clickOrShake(int tileValue) {
+
+
     if (solved) {
       _controller.add(PuzzleEvent.noop);
-      _shake(tileValue);
+      // _shake(tileValue);
       _lastBadClick = null;
       _badClickCount = 0;
       return;
@@ -83,7 +88,7 @@ class PuzzleAnimator implements PuzzleProxy {
 
     _controller.add(PuzzleEvent.click);
     if (!_clickValue(tileValue)) {
-      _shake(tileValue);
+      // _shake(tileValue);
 
       // This is logic to allow a user to skip to the end – useful for testing
       // click on 5 un-movable tiles in a row, but not the same tile twice
@@ -111,7 +116,40 @@ class PuzzleAnimator implements PuzzleProxy {
       _lastBadClick = null;
       _badClickCount = 0;
     }
+
   }
+  SMIBool? glow;
+  List TileGlowArray = [];
+  int tileIndex = 0;
+
+  @override
+  void onRiveInit(Artboard artboard) {
+    final controller =
+      StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
+    artboard.addController(controller!);
+    glow = controller.findInput<bool>('isGlowing') as SMIBool;
+    TileGlowArray.insert(tileIndex, glow);
+    tileIndex++;
+    if(tileIndex == 15)
+      {
+        glowToggle();
+      }
+  }
+
+@override
+  void glowToggle(){
+    int i;
+    for (i = 0; i < 15; i++) {
+      if (isCorrectPosition(i)) {
+        TileGlowArray[i].change(true);
+      }
+      else {
+        TileGlowArray[i].change(false);
+      }
+    }
+}
+
+
 
   void _resetCore({List<int>? source}) {
     _puzzle = _puzzle.reset(source: source);
@@ -119,6 +157,7 @@ class PuzzleAnimator implements PuzzleProxy {
     _lastBadClick = null;
     _badClickCount = 0;
     _controller.add(PuzzleEvent.reset);
+    glowToggle();
   }
 
   bool _clickValue(int value) {
@@ -132,18 +171,6 @@ class PuzzleAnimator implements PuzzleProxy {
     }
   }
 
-  void _shake(int tileValue) {
-    Point<double> deltaDouble;
-    if (solved) {
-      deltaDouble = Point(_rnd.nextDouble() - 0.5, _rnd.nextDouble() - 0.5);
-    } else {
-      final delta = _puzzle.openPosition() - _puzzle.coordinatesOf(tileValue);
-      deltaDouble = Point(delta.x.toDouble(), delta.y.toDouble());
-    }
-    deltaDouble *= 0.5 / deltaDouble.magnitude;
-
-    _locations[tileValue].kick(deltaDouble);
-  }
 
   void update(Duration timeDelta) {
     assert(!timeDelta.isNegative);
@@ -162,7 +189,7 @@ class PuzzleAnimator implements PuzzleProxy {
 
       _stable = !body.animate(animationSeconds,
               force: target - body.location,
-              drag: .9,
+              drag: 2,
               maxVelocity: 1.0,
               snapTo: target) &&
           _stable;

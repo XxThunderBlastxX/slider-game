@@ -238,6 +238,7 @@ abstract class Puzzle {
   String toString() => _toString();
 
   String _toString() {
+    print('called');
     final grid = List<List<String>>.generate(
         height,
         (row) => List<String>.generate(

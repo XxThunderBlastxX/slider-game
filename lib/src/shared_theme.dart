@@ -10,13 +10,13 @@ import 'widgets/material_interior_alt.dart';
 
 final puzzleAnimationDuration = kThemeAnimationDuration * 3;
 
-
-
 abstract class SharedTheme {
 
-   const SharedTheme();
+  const SharedTheme();
 
   String get name;
+
+  // final SMIBool? glow;   //needs to be explicitly set in the inherited class. Also needs a function to change its value, which will be extended.
 
   Color get puzzleThemeBackground;
 
@@ -29,6 +29,9 @@ abstract class SharedTheme {
   EdgeInsetsGeometry tilePadding(PuzzleProxy puzzle) => const EdgeInsets.all(6);
 
   Widget tileButton(int i, PuzzleProxy puzzle, bool small);
+
+
+
 
   Ink createInk(
     Widget child, {
@@ -43,17 +46,14 @@ abstract class SharedTheme {
         child: child,
       );
 
+ // void onRiveInit(Artboard artboard) {
+ //   print('RiveObject Initiated');
+ //    final controller =
+ //      StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
+ //    artboard.addController(controller!);
+ //    glow = controller.findInput<bool>('isGlowing') as SMIBool;
+ //  }
 
-
-  void _onRiveInit(
-      Artboard artboard) {
-    SMIBool? _glow;
-    final controller =
-      StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
-    artboard.addController(controller!);
-    _glow = controller.findInput<bool>('isGlowing') as SMIBool;
-    // _glow.change(true);
-  }
 
   Widget createButton(
     PuzzleProxy puzzle,
@@ -63,6 +63,7 @@ abstract class SharedTheme {
     Color? color,
     RoundedRectangleBorder? shape,
   }) =>
+
       AnimatedContainer(
         duration: puzzleAnimationDuration,
         padding: tilePadding(puzzle),
@@ -82,9 +83,13 @@ abstract class SharedTheme {
           child: RiveAnimation.asset(
             'asset/rive/tile${tileValue+1}.riv',
             fit: BoxFit.contain,
-            onInit: _onRiveInit,
+            onInit: puzzle.onRiveInit,
           ),
-          onTap: ()=> puzzle.clickOrShake(tileValue),
+
+          onTap: (){
+            puzzle.clickOrShake(tileValue);
+            puzzle.glowToggle();
+          },
         ),
       );
 
