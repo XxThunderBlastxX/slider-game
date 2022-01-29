@@ -1,16 +1,20 @@
 // Copyright 2020, the Flutter project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-
+import 'package:rive/rive.dart';
 import 'core/puzzle_proxy.dart';
 import 'flutter.dart';
 import 'puzzle_controls.dart';
 import 'widgets/material_interior_alt.dart';
 
+
 final puzzleAnimationDuration = kThemeAnimationDuration * 3;
 
+
+
 abstract class SharedTheme {
-  const SharedTheme();
+
+   const SharedTheme();
 
   String get name;
 
@@ -39,6 +43,18 @@ abstract class SharedTheme {
         child: child,
       );
 
+
+
+  void _onRiveInit(
+      Artboard artboard) {
+    SMIBool? _glow;
+    final controller =
+      StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
+    artboard.addController(controller!);
+    _glow = controller.findInput<bool>('isGlowing') as SMIBool;
+
+  }
+
   Widget createButton(
     PuzzleProxy puzzle,
     bool small,
@@ -50,17 +66,25 @@ abstract class SharedTheme {
       AnimatedContainer(
         duration: puzzleAnimationDuration,
         padding: tilePadding(puzzle),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            elevation: 4,
-            animationDuration: puzzleAnimationDuration,
-            shape: shape ?? puzzleBorder(small),
-            padding: const EdgeInsets.symmetric(),
-            primary: color,
+        // child: ElevatedButton(
+        //   style: ElevatedButton.styleFrom(
+        //     elevation: 4,
+        //     animationDuration: puzzleAnimationDuration,
+        //     shape: shape ?? puzzleBorder(small),
+        //     padding: const EdgeInsets.symmetric(),
+        //     primary: color,
+        //   ),
+        //   clipBehavior: Clip.hardEdge,
+        //   onPressed: () => puzzle.clickOrShake(tileValue),
+        //   child: content,
+        // ),
+        child: GestureDetector(
+          child: RiveAnimation.asset(
+            'asset/rive/tile${tileValue+1}.riv',
+            fit: BoxFit.contain,
+            onInit: _onRiveInit,
           ),
-          clipBehavior: Clip.hardEdge,
-          onPressed: () => puzzle.clickOrShake(tileValue),
-          child: content,
+          onTap: ()=> puzzle.clickOrShake(tileValue),
         ),
       );
 

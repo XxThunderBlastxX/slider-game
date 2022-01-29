@@ -9,6 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.2
+  rive: ^0.8.1
 
 dev_dependencies:
   flutter_test:
@@ -20,6 +21,7 @@ flutter:
   uses-material-design: true
   assets:
     - asset/
+    - asset/rive/
 
   fonts:
     - family: Plaster
