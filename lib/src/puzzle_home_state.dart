@@ -110,10 +110,10 @@ class PuzzleHomeState extends State
               LayoutBuilder(
                 builder: (context, constraints) => Center(
                   child: Container(
-                    width: 1920,
-                    height: 1080,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
                     child: SvgPicture.asset('asset/rive/BG.svg',
-                        fit: BoxFit.cover, semanticsLabel: 'background'),
+                        fit: BoxFit.fill, semanticsLabel: 'background'),
                   ),
                 ),
               ),
@@ -122,14 +122,14 @@ class PuzzleHomeState extends State
                 LayoutBuilder(
                   builder: (context, constraints) => Center(
                     child: Container(
-                      width: 892.3062,
-                      height: 888.861,
+                      width: MediaQuery.of(context).size.width * 0.41,
+                      // height: MediaQuery.of(context).size.height,
                       child: SvgPicture.asset('asset/rive/frame.svg',
-                          fit: BoxFit.cover, semanticsLabel: 'frame'),
+                          fit: BoxFit.contain, semanticsLabel: 'frame'),
                     ),
                   ),
                 ),
-                LayoutBuilder(builder: _doBuild),
+                const LayoutBuilder(builder: _doBuild),
               ]),
             ],
           ),
@@ -226,16 +226,17 @@ Widget _doBuild(BuildContext _, BoxConstraints constraints) =>
 Widget _doBuildCore(bool small) => ValueTabController<SharedTheme>(
       values: themes,
       child: Consumer<SharedTheme>(
-        builder: (_, theme, __) => AnimatedContainer(
+        builder: (context, theme, __) => AnimatedContainer(
           duration: puzzleAnimationDuration,
           // color: theme.puzzleThemeBackground,
           color: Colors.transparent, //.puzzleThemeBackground,
           child: Center(
             child: theme.styledWrapper(
               small,
-              SizedBox(
-                width: 667,
-                height: 669,
+              Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width * 0.32,
+                // height: MediaQuery.of(context).size.height * 0.75,
                 child: Consumer<AppState>(
                   builder: (context, appState, _) => Column(
                     mainAxisSize: MainAxisSize.min,
@@ -273,7 +274,11 @@ Widget _doBuildCore(bool small) => ValueTabController<SharedTheme>(
                           padding: const EdgeInsets.all(0),
                           child: Flow(
                             delegate: PuzzleFlowDelegate(
-                              small ? const Size(90, 90) : const Size(168, 168),
+                              small
+                                  ? const Size(90, 90)
+                                  : Size(
+                                      MediaQuery.of(context).size.width * 0.08,
+                                      MediaQuery.of(context).size.width * 0.08),
                               appState.puzzle,
                               appState.animationNotifier,
                             ),
