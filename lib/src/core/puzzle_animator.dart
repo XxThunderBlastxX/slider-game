@@ -3,16 +3,17 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:math' show Point;
+// import 'dart:math' show Point, Random;
 import 'package:rive/rive.dart';
-import 'dart:math' show Point, Random;
 
 import 'body.dart';
 import 'puzzle.dart';
 import 'puzzle_proxy.dart';
-import '../shared_theme.dart';
+// import '../shared_theme.dart';
 
 class PuzzleAnimator implements PuzzleProxy {
-  final _rnd = Random();
+  // final _rnd = Random();
   final List<Body> _locations;
   final _controller = StreamController<PuzzleEvent>();
   bool _nextRandomVertical = true;
@@ -119,7 +120,7 @@ class PuzzleAnimator implements PuzzleProxy {
 
   }
   SMIBool? glow;
-  List TileGlowArray = [];
+  List tileGlowArray = [];
   int tileIndex = 0;
 
   @override
@@ -128,7 +129,7 @@ class PuzzleAnimator implements PuzzleProxy {
       StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
     artboard.addController(controller!);
     glow = controller.findInput<bool>('isGlowing') as SMIBool;
-    TileGlowArray.insert(tileIndex, glow);
+    tileGlowArray.insert(tileIndex, glow);
     tileIndex++;
     if(tileIndex == 15)
       {
@@ -141,10 +142,10 @@ class PuzzleAnimator implements PuzzleProxy {
     int i;
     for (i = 0; i < 15; i++) {
       if (isCorrectPosition(i)) {
-        TileGlowArray[i].change(true);
+        tileGlowArray[i].change(true);
       }
       else {
-        TileGlowArray[i].change(false);
+        tileGlowArray[i].change(false);
       }
     }
 }

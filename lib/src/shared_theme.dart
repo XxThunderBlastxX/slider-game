@@ -95,10 +95,10 @@ abstract class SharedTheme {
         child: child,
       );
 
-  TextStyle get _infoStyle => TextStyle(
-        color: puzzleAccentColor,
-        fontWeight: FontWeight.bold,
-      );
+  // TextStyle get _infoStyle => TextStyle(
+  //       color: puzzleAccentColor,
+  //       fontWeight: FontWeight.bold,
+  //     );
 
   // List<Widget> bottomControls(PuzzleControls controls) => <Widget>[
   //       Tooltip(
