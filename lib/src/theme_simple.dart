@@ -3,13 +3,14 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:rive/rive.dart';
+// import 'package:rive/rive.dart';
 
 import 'core/puzzle_proxy.dart';
 import 'flutter.dart';
 import 'shared_theme.dart';
 
 const _accentBlue = Color(0xff000579);
+const _accentGreen = Color(0xff47251c);
 
 class ThemeSimple extends SharedTheme {
   @override
@@ -17,7 +18,7 @@ class ThemeSimple extends SharedTheme {
 
   const ThemeSimple();
   @override
-  Color get puzzleThemeBackground => Color(0xff47251c);
+  Color get puzzleThemeBackground => _accentGreen;
 
   @override
   Color get puzzleBackgroundColor => Colors.transparent;
@@ -50,24 +51,24 @@ class ThemeSimple extends SharedTheme {
 
     final correctPosition = puzzle.isCorrectPosition(i);
 
-    @override
-    void glowCheck(SMIBool glow) {
-      //TODO: implement onRiveInit
-      if (correctPosition) {
-        glow.change(true);
-      } else {
-        glow.change(false);
-      }
-    }
+    // @override
+    // void glowCheck(SMIBool glow) {
+    //   //TODO: implement onRiveInit
+    //   if (correctPosition) {
+    //     glow.change(true);
+    //   } else {
+    //     glow.change(false);
+    //   }
+    // }
 
-    @override
-    void onRiveInit(Artboard artboard) {
-      SMIBool? glow;
-      final controller =
-          StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
-      artboard.addController(controller!);
-      glow = controller.findInput<bool>('isGlowing') as SMIBool;
-    }
+    // @override
+    // void onRiveInit(Artboard artboard) {
+    //   SMIBool? glow;
+    //   final controller =
+    //       StateMachineController.fromArtboard(artboard, 'GlowStateMachine');
+    //   artboard.addController(controller!);
+    //   glow = controller.findInput<bool>('isGlowing') as SMIBool;
+    // }
 
     final content = createInk(
       Center(
